@@ -20,26 +20,37 @@ const Detail = ({ route }) => {
     }
   };
 
-  const tamtinh = (parseFloat(item.gia.replace('.', '')) * soluong).toLocaleString('vi-VN');
+  const tinhTamTinh = () => {
+    const gia = item && item.gia ? parseFloat(item.gia) : 0;
+    return (gia * soluong).toLocaleString('vi-VN') + 'đ';
+  };
 
   const btn = () =>{
     try {
-      console.log('Mua thành công', {tamtinh});
-      navigation.navigate('StackNavigator')
+      console.log('Mua thành công');
+      navigation.navigate('StackNavigator');
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
   const btnback = () => {
     navigation.navigate("Home");
   };
-  const btnCart = (item) => {
-    navigation.navigate("Cart");
+
+  const btnCart = () => {
+    try {
+      console.log('Them vào gio hang công');
+      navigation.navigate('Cart', { soluong, item }); // Truyền số lượng và thông tin sản phẩm qua params
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   const btnallcaytrong = () => {
     navigation.navigate("Home");
   };
+
   const chonMuaColor = soluong === 0 ? "#ccc" : "green";
   const chonMuaDisabled = soluong === 0;
 
@@ -53,7 +64,7 @@ const Detail = ({ route }) => {
       </View>
       {/* ảnh */}
       <View>
-        <Image style={{ width: "100%", height: 270 }} resizeMode="cover" source={item.img2} />
+        <Image style={{ width: '100%', height: 270 }} resizeMode="cover" source={{uri:item.img2}} />
       </View>
 
       {/* trang2 */}
@@ -70,7 +81,9 @@ const Detail = ({ route }) => {
         </View>
         {/* gia */}
         <View style={{ padding: 50, paddingBottom: 0, paddingTop: 10 }}>
-          <Text style={{ fontSize: 24, fontWeight: "500", color: "green" }}>{item.gia}</Text>
+          {item && item.gia && (
+            <Text style={{ fontSize: 24, fontWeight: "500", color: "green" }}>{item.gia}</Text>
+          )}
         </View>
 
         {/* chitiet */}
@@ -111,7 +124,7 @@ const Detail = ({ route }) => {
           {/* tinhtien */}
           <View>
             <Text style={{ fontSize: 16, fontWeight: "300", alignSelf: "flex-end" }}>Tạm tính</Text>
-            <Text style={{ paddingTop: 5, fontSize: 24, fontWeight: "500" }}>{tamtinh}đ</Text>
+            <Text style={{ paddingTop: 5, fontSize: 24, fontWeight: "500" }}>{tinhTamTinh()}</Text>
           </View>
         </View>
         <TouchableOpacity onPress={btn} style={{ width: '80%', height: 50, backgroundColor: chonMuaColor, alignSelf: "center", borderRadius: 8, opacity: chonMuaDisabled ? 0.5 : 1 }} disabled={chonMuaDisabled}>

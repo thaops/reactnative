@@ -1,12 +1,16 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
+import React, { useState ,useEffect} from "react";
+import { StyleSheet, Text, TouchableOpacity, View, Image, Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 
-const Cart = ({ navigation }) => {
+const Cart = ({route, navigation }) => {
   const [soluong, setsoluong] = useState(1);
   const [isChecked, setIsChecked] = useState(false);
+  const [cartData, setCartData] = useState(route.params);
+  useEffect(() => {
+    setCartData(route.params);
+  }, [route.params]);
 
   const soluongtang = () => {
     setsoluong(soluong + 1);
@@ -22,7 +26,54 @@ const Cart = ({ navigation }) => {
   const btnback = (item) => {
     navigation.navigate("Home");
   };
+
+  const BuyProduct = (item) => {
+    navigation.navigate("BuyProduct");
+  };
+
+  const deleteProduct = () => {
+    Alert.alert(
+      "Xóa sản phẩm",
+      "Bạn có muốn xóa sản phẩm này không?",
+      [
+        {
+          text: "Hủy",
+          onPress: () => {},
+          style: "cancel",
+        },
+        {
+          text: "Xóa",
+          onPress: () => {
+            // Thực hiện xóa sản phẩm ở đây
+            // Sau khi xóa, bạn có thể cập nhật lại trạng thái hoặc điều hướng đến trang khác (nếu cần)
+            // Hiển thị thông báo đã xóa sản phẩm thành công
+            Alert.alert(
+              "Xóa sản phẩm",
+              "Sản phẩm đã được xóa thành công!",
+              [
+                {
+                  text: "OK",
+                  onPress: () => {
+                    // Cập nhật lại trạng thái hoặc điều hướng đến trang khác (nếu cần)
+                  },
+                },
+              ],
+              { cancelable: false }
+            );
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+  
+  const { soluong: quantity, item } = cartData; // Lấy dữ liệu sản phẩm từ route.params
+  // console.log("Số lượng sản phẩm:", quantity);
+  // console.log("Thông tin sản phẩm:", item);
+  console.log(cartData);
+
   return (
+    
     <View>
         <View style={{height:30}}/>
       <View
@@ -35,7 +86,9 @@ const Cart = ({ navigation }) => {
       >
         <Ionicons onPress={btnback} name="chevron-back-outline" size={24} color="black" />
         <Text style={{ fontSize: 16, fontWeight: "500" }}>GIỎ HÀNG</Text>
-        <AntDesign name="delete" size={24} color="black" />
+        <TouchableOpacity onPress={deleteProduct}>
+          <AntDesign name="delete" size={24} color="black" />
+        </TouchableOpacity>
       </View>
       <View style={{ height: 20 }} />
       <View
@@ -57,7 +110,7 @@ const Cart = ({ navigation }) => {
         <View>
           <Image
             style={{ backgroundColor: "#EEEEEE", width: 77, height: 77 }}
-            source={require("../../img/imgitem1.png")}
+            source={{uri:item.img}}
           />
         </View>
         <View style={{ marginRight: 10 }}>
@@ -69,13 +122,13 @@ const Cart = ({ navigation }) => {
             }}
           >
             <Text style={{ fontSize: 18, fontWeight: "500" }}>
-              Spider Plant |{" "}
+              {item.title} |{" "}
             </Text>
-            <Text style={{ fontWeight: "300" }}>Ưa bóng</Text>
+            <Text style={{ fontWeight: "300" }}>{item.titlemini}</Text>
           </View>
           <View style={{ height: 10 }} />
           <Text style={{ fontSize: 16, fontWeight: "500", color: "green" }}>
-          {tamtinh}.000đ
+          {item.gia}.000đ
           </Text>
           <View style={{ height: 10 }} />
           <View
@@ -125,6 +178,7 @@ const Cart = ({ navigation }) => {
             </View>
             <View style={{ height: 10 }} />
             <TouchableOpacity
+            onPress={BuyProduct}
               style={{
                 width: "100%",
                 height: 50,

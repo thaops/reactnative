@@ -17,6 +17,9 @@ import Notification from "./src/screnbotap/Notification";
 import Cart from "./src/homestack/Cart";
 import Allcaytrong from "./src/homestack/Allcaytrong";
 import Dangky from "./src/scrensolo/Dangky";
+import BuyProduct from "./src/homestack/BuyProduct";
+import UpdateProfile from "./src/profilestack/UpdateProfile";
+import QA from "./src/profilestack/QA";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 // const HomeStack = () => {
@@ -152,6 +155,22 @@ const TabNavigator = () => {
           component={Dangky}
           options={{ headerShown: false }}
         />
+         <Stack.Screen
+          name="BuyProduct"
+          component={BuyProduct}
+          options={{ headerShown: false }}
+        />
+          <Stack.Screen
+          name="UpdateProfile"
+          component={UpdateProfile}
+          options={{ headerShown: false }}
+        />
+          <Stack.Screen
+          name="QA"
+          component={QA}
+          options={{ headerShown: false }}
+        />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );

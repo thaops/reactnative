@@ -10,6 +10,7 @@ const Bai1custom = ({ left, title, right }) => {
           justifyContent: "space-between",
           padding: 40,
           paddingBottom: 10,
+          
         }}
       >
         <View>{left}</View>

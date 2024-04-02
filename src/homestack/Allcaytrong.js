@@ -30,8 +30,10 @@ const Allcaytrong = ({ navigation }) => {
   };
 
   const detedata = (item) => {
-    navigation.navigate("Detail", { item });
-  };
+  navigation.navigate("Detail");
+  navigation.setParams({ item }); // Đặt item bằng navigation.setParams
+};
+
 
   const renderItem = ({ item }) => {
     // Kiểm tra nếu không có mục nào được chọn hoặc mục được chọn là "ALL", hiển thị tất cả các mục
@@ -44,7 +46,7 @@ const Allcaytrong = ({ navigation }) => {
           >
             <Image
               style={{ flex: 1, backgroundColor: "#EEEEEE", borderRadius: 10 }}
-              source={item.img}
+             source={item.img}
             />
             <Text style={{ fontSize: 16, fontWeight: "400", paddingTop: 5 }}>
               {item.title}
@@ -75,7 +77,7 @@ const Allcaytrong = ({ navigation }) => {
         >
           <Image
             style={{ flex: 1, backgroundColor: "#EEEEEE", borderRadius: 10 }}
-            source={item.img}
+           source={item.img}
           />
           <Text style={{ fontSize: 16, fontWeight: "400", paddingTop: 5 }}>
             {item.title}

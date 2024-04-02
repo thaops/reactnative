@@ -7,8 +7,8 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import {ScrollView} from 'react-native-virtualized-view'
-import React from "react";
+import { ScrollView } from "react-native-virtualized-view";
+import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 
 import { AntDesign } from "@expo/vector-icons";
@@ -23,10 +23,10 @@ const data = [
     title: "Spider Plant",
     titlemini: "Ưa sáng",
     gia: "250.000đ",
-    loai:"Cây trồng",
-    kichthuoc:"Nhỏ",
-    xuatxu:"Việt Nam",
-    tinhtrang:" 100 ",
+    loai: "Cây trồng",
+    kichthuoc: "Nhỏ",
+    xuatxu: "Việt Nam",
+    tinhtrang: " 100 ",
   },
   {
     key: "2",
@@ -35,11 +35,10 @@ const data = [
     title: "Spider Plant",
     titlemini: "Ưa sáng",
     gia: "250.000đ",
-    loai:"Cây trồng",
-    kichthuoc:"Lớn",
-    xuatxu:"Châu phi",
-    tinhtrang:" 153 ",
-    
+    loai: "Cây trồng",
+    kichthuoc: "Lớn",
+    xuatxu: "Châu phi",
+    tinhtrang: " 153 ",
   },
   {
     key: "3",
@@ -48,10 +47,10 @@ const data = [
     title: "Spider Plant",
     titlemini: "Ưa sáng",
     gia: "250.000đ",
-    loai:"Cây trồng",
-    kichthuoc:"Nhỏ",
-    xuatxu:"Châu My",
-    tinhtrang:" 87",
+    loai: "Cây trồng",
+    kichthuoc: "Nhỏ",
+    xuatxu: "Châu My",
+    tinhtrang: " 87",
   },
   {
     key: "4",
@@ -60,11 +59,10 @@ const data = [
     title: "Spider Plant",
     titlemini: "Ưa sáng",
     gia: "250.000đ",
-    loai:"Cây trồng",
-    kichthuoc:"lớn",
-    xuatxu:"Nhật Bản",
-    tinhtrang:" 23 ",
-    
+    loai: "Cây trồng",
+    kichthuoc: "lớn",
+    xuatxu: "Nhật Bản",
+    tinhtrang: " 23 ",
   },
   {
     key: "5",
@@ -73,10 +71,10 @@ const data = [
     title: "Spider Plant",
     titlemini: "Ưa Tối",
     gia: "250.000đ",
-    loai:"Cây trồng",
-    kichthuoc:"Nhỏ",
-    xuatxu:"Việt Nam",
-    tinhtrang:" 100 ",
+    loai: "Cây trồng",
+    kichthuoc: "Nhỏ",
+    xuatxu: "Việt Nam",
+    tinhtrang: " 100 ",
   },
   {
     key: "6",
@@ -85,11 +83,10 @@ const data = [
     title: "Spider Plant",
     titlemini: "Ưa Tối",
     gia: "250.000đ",
-    loai:"Cây trồng",
-    kichthuoc:"Lớn",
-    xuatxu:"Châu phi",
-    tinhtrang:" 153 ",
-    
+    loai: "Cây trồng",
+    kichthuoc: "Lớn",
+    xuatxu: "Châu phi",
+    tinhtrang: " 153 ",
   },
 ];
 
@@ -131,6 +128,7 @@ const datcomb = [
 ];
 
 const Home = () => {
+  const [products, setProducts] = useState([]);
   const navigation = useNavigation();
 
   const detedata = (item) => {
@@ -141,20 +139,61 @@ const Home = () => {
     navigation.navigate("Cart");
   };
 
-  const Allcaytrong = () => {
-    navigation.navigate("Allcaytrong",{data});
+  const Allcaytrong = (data) => {
+    navigation.navigate("Allcaytrong", {data});
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+       
+        const response = await fetch(
+          "http://192.168.245.229:3000/api/get/product"
+        );
 
-  
+        if (!response.ok) {
+          throw new Error("Không thể lấy dữ liệu từ API");
+        }
+
+        const data = await response.json();
+        setProducts(data);
+        console.log("Dữ liệu từ API:", data);
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu từ API:", error);
+      }
+    };
+
+    // Gọi hàm fetchData khi useEffect được gọi
+    fetchData();
+  }, []);
 
   const renderItem = ({ item }) => (
     <View style={{ padding: 30, paddingLeft: 30, paddingRight: 15 }}>
-      <TouchableOpacity onPress={() => detedata(item)} style={{ backgroundColor: "#F6F5F5" }}>
-        <Image style={{ flex: 1, backgroundColor: "#EEEEEE", borderRadius: 10 }} source={item.img} />
-        <Text style={{ fontSize: 16, fontWeight: "400", paddingTop: 5 }}>{item.title}</Text>
-        <Text style={{ fontSize: 14, fontWeight: "300", paddingTop: 5 }}>{item.titlemini}</Text>
-        <Text style={{ fontSize: 16, fontWeight: "400", paddingTop: 5, color: "green" }}>{item.gia}</Text>
+      <TouchableOpacity
+        onPress={() => detedata(item)}
+        style={{ backgroundColor: "#F6F5F5" }}
+      >
+        <Image
+        style={{ flex: 1, backgroundColor: "#EEEEEE", borderRadius: 10,width:155, height:134 }}
+        source={{ uri: item.img }}
+        />
+
+        <Text style={{ fontSize: 16, fontWeight: "400", paddingTop: 5 }}>
+          {item.title}
+        </Text>
+        <Text style={{ fontSize: 14, fontWeight: "300", paddingTop: 5 }}>
+          {item.titlemini}
+        </Text>
+        <Text
+          style={{
+            fontSize: 16,
+            fontWeight: "400",
+            paddingTop: 5,
+            color: "green",
+          }}
+        >
+          {item.gia}
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -162,21 +201,65 @@ const Home = () => {
   const renderItemchau = ({ item }) => (
     <View style={{ padding: 30, paddingLeft: 30, paddingRight: 15 }}>
       <TouchableOpacity style={{ backgroundColor: "#F6F5F5" }}>
-        <Image style={{ flex: 1, backgroundColor: "#EEEEEE", borderRadius: 10 }} source={item.img} />
-        <Text style={{ fontSize: 16, fontWeight: "400", paddingTop: 5 }}>{item.title}</Text>
-        <Text style={{ fontSize: 16, fontWeight: "400", paddingTop: 5, color: "green" }}>{item.gia}</Text>
+        <Image
+          style={{ flex: 1, backgroundColor: "#EEEEEE", borderRadius: 10 }}
+          source={item.img}
+        />
+        <Text style={{ fontSize: 16, fontWeight: "400", paddingTop: 5 }}>
+          {item.title}
+        </Text>
+        <Text
+          style={{
+            fontSize: 16,
+            fontWeight: "400",
+            paddingTop: 5,
+            color: "green",
+          }}
+        >
+          {item.gia}
+        </Text>
       </TouchableOpacity>
     </View>
   );
 
   const renderItemcomb = ({ item }) => (
     <View style={{ padding: 30, paddingLeft: 30, paddingRight: 15 }}>
-      <TouchableOpacity style={{ backgroundColor: "#EEEEEE", flexDirection: "row", justifyContent: "space-between", paddingLeft: 15, paddingRight: 10, borderRadius: 10 }}>
+      <TouchableOpacity
+        style={{
+          backgroundColor: "#EEEEEE",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          paddingLeft: 15,
+          paddingRight: 10,
+          borderRadius: 10,
+        }}
+      >
         <View>
-          <Text style={{ fontSize: 16, fontWeight: "400", paddingTop: 5 }}>{item.title}</Text>
-          <Text style={{ fontSize: 16, fontWeight: "400", paddingTop: 5, color: "green", width: 200 }}>{item.titlemini}</Text>
+          <Text style={{ fontSize: 16, fontWeight: "400", paddingTop: 5 }}>
+            {item.title}
+          </Text>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: "400",
+              paddingTop: 5,
+              color: "green",
+              width: 200,
+            }}
+          >
+            {item.titlemini}
+          </Text>
         </View>
-        <Image style={{ backgroundColor: "#EEEEEE", width: 108, height: 135, borderTopRightRadius: 10 }} resizeMethod="resize" source={item.img} />
+        <Image
+          style={{
+            backgroundColor: "#EEEEEE",
+            width: 108,
+            height: 135,
+            borderTopRightRadius: 10,
+          }}
+          resizeMethod="resize"
+          source={item.img}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -186,42 +269,158 @@ const Home = () => {
       <View style={{ flex: 1 }}>
         <View style={{ height: 30 }} />
         <View style={{ backgroundColor: "rgba(246, 246, 246, 1)" }}>
-          <View style={{ flexDirection: "row", justifyContent: "space-between", padding: 30 }}>
-            <Text style={{ fontSize: 24, fontWeight: "500", marginTop: 20 }}>Planta - toả sáng {"\n"}không gian nhà bạn</Text>
-            <TouchableOpacity onPress={btnCart} style={{ width: 50, height: 50, borderRadius: 50, backgroundColor: "#fff", justifyContent: "center" }}>
-              <AntDesign style={{ alignSelf: "center" }} name="shoppingcart" size={24} color="black" />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              padding: 30,
+            }}
+          >
+            <Text style={{ fontSize: 24, fontWeight: "500", marginTop: 20 }}>
+              Planta - toả sáng {"\n"}không gian nhà bạn
+            </Text>
+            <TouchableOpacity
+              // onPress={btnCart}
+              style={{
+                width: 50,
+                height: 50,
+                borderRadius: 50,
+                backgroundColor: "#fff",
+                justifyContent: "center",
+              }}
+            >
+              <AntDesign
+                style={{ alignSelf: "center" }}
+                name="shoppingcart"
+                size={24}
+                color="black"
+              />
             </TouchableOpacity>
           </View>
           <View style={{ marginTop: -20, height: 200 }}>
-            <ImageBackground style={{ resizeMode: "cover", width: "100%", height: 205 }} source={require("../../img/home2.png")}>
-              <TouchableOpacity style={{ flexDirection: "row", marginLeft: 30, marginTop: 30, alignItems: "center" }}>
-                <Text style={{ fontSize: 16, color: "green", paddingRight: 10, padding: 5 }}>Xem hàng mới về</Text>
+            <ImageBackground
+              style={{ resizeMode: "cover", width: "100%", height: 205 }}
+              source={require("../../img/home2.png")}
+            >
+              <TouchableOpacity
+                style={{
+                  flexDirection: "row",
+                  marginLeft: 30,
+                  marginTop: 30,
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 16,
+                    color: "green",
+                    paddingRight: 10,
+                    padding: 5,
+                  }}
+                >
+                  Xem hàng mới về
+                </Text>
                 <Feather name="arrow-right" size={24} color="green" />
               </TouchableOpacity>
             </ImageBackground>
           </View>
         </View>
         <View>
-          <Text style={{ fontSize: 26, fontWeight: "500", padding: 30, paddingBottom: -5 }}>Cây Trồng</Text>
-          <FlatList data={data} renderItem={renderItem} keyExtractor={(item) => item.key} numColumns={2} />
-          <TouchableOpacity onPress={Allcaytrong}>
-            <Text style={{ alignSelf: "flex-end", padding: 30, fontSize: 16, fontWeight: "500", paddingBottom: -5 }}>Xem thêm Cây trồng</Text>
+          <Text
+            style={{
+              fontSize: 26,
+              fontWeight: "500",
+              padding: 30,
+              paddingBottom: -5,
+            }}
+          >
+            Cây Trồng
+          </Text>
+          <FlatList
+            data={products}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.key}
+            numColumns={2}
+          />
+          <TouchableOpacity onPress={() => Allcaytrong(data)}>
+            <Text
+              style={{
+                alignSelf: "flex-end",
+                padding: 30,
+                fontSize: 16,
+                fontWeight: "500",
+                paddingBottom: -5,
+              }}
+            >
+              Xem thêm Cây trồng
+            </Text>
           </TouchableOpacity>
         </View>
         <View>
-          <Text style={{ fontSize: 26, fontWeight: "500", padding: 30, paddingBottom: -5 }}>Chậu cây trồng</Text>
-          <FlatList data={datachau} renderItem={renderItemchau} keyExtractor={(item) => item.key} numColumns={2} />
+          <Text
+            style={{
+              fontSize: 26,
+              fontWeight: "500",
+              padding: 30,
+              paddingBottom: -5,
+            }}
+          >
+            Chậu cây trồng
+          </Text>
+          <FlatList
+            data={datachau}
+            renderItem={renderItemchau}
+            keyExtractor={(item) => item.key}
+            numColumns={2}
+          />
           <TouchableOpacity>
-            <Text style={{ alignSelf: "flex-end", padding: 30, fontSize: 16, fontWeight: "500", paddingBottom: -5 }}>Xem thêm Phụ kiện</Text>
+            <Text
+              style={{
+                alignSelf: "flex-end",
+                padding: 30,
+                fontSize: 16,
+                fontWeight: "500",
+                paddingBottom: -5,
+              }}
+            >
+              Xem thêm Phụ kiện
+            </Text>
           </TouchableOpacity>
         </View>
         <View>
-          <Text style={{ fontSize: 26, fontWeight: "500", padding: 30, paddingBottom: -5 }}>Combo chăm sóc (mới)</Text>
-          <FlatList data={datcomb} renderItem={renderItemcomb} keyExtractor={(item) => item.key} numColumns={0} />
+          <Text
+            style={{
+              fontSize: 26,
+              fontWeight: "500",
+              padding: 30,
+              paddingBottom: -5,
+            }}
+          >
+            Combo chăm sóc (mới)
+          </Text>
+          <FlatList
+            data={datcomb}
+            renderItem={renderItemcomb}
+            keyExtractor={(item) => item.key}
+            numColumns={0}
+          />
           <TouchableOpacity>
-            <Text style={{ alignSelf: "flex-end", padding: 30, fontSize: 16, fontWeight: "500" }}>Xem thêm Phụ kiện</Text>
+            <Text
+              style={{
+                alignSelf: "flex-end",
+                padding: 30,
+                fontSize: 16,
+                fontWeight: "500",
+              }}
+            >
+              Xem thêm Phụ kiện
+            </Text>
+
           </TouchableOpacity>
+          <Image source={{uri: 'https://firebasestorage.googleapis.com/v0/b/realtimedatabase-231d9.appspot.com/o/imgitem2.png?alt=media&token=93db1b0a-038b-4b50-bd74-5d628f813c33'}} style={{width:155, height:134}} />
+<View style={{width:500,height:500}}/>
         </View>
+        
       </View>
     </ScrollView>
   );
