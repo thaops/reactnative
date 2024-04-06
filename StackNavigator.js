@@ -20,6 +20,8 @@ import Dangky from "./src/scrensolo/Dangky";
 import BuyProduct from "./src/homestack/BuyProduct";
 import UpdateProfile from "./src/profilestack/UpdateProfile";
 import QA from "./src/profilestack/QA";
+import { Provider } from 'react-redux';
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 // const HomeStack = () => {
@@ -44,7 +46,7 @@ const StackNavigator = ({ navigation }) => {
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: "rgba(0, 0, 0, 0.00000001)",
+          backgroundColor: "#fff",
           position: "absolute",
           bottom: 0,
           left: 0,

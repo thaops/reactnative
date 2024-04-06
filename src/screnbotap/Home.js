@@ -10,7 +10,7 @@ import {
 import { ScrollView } from "react-native-virtualized-view";
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
-
+import { API } from "../../API";
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
@@ -139,8 +139,8 @@ const Home = () => {
     navigation.navigate("Cart");
   };
 
-  const Allcaytrong = (data) => {
-    navigation.navigate("Allcaytrong", {data});
+  const Allcaytrong = (item) => {
+    navigation.navigate("Allcaytrong");
   };
 
   useEffect(() => {
@@ -148,7 +148,7 @@ const Home = () => {
       try {
        
         const response = await fetch(
-          "http://192.168.245.229:3000/api/get/product"
+          `${API}/api/get/product`
         );
 
         if (!response.ok) {
@@ -157,21 +157,21 @@ const Home = () => {
 
         const data = await response.json();
         setProducts(data);
-        console.log("Dữ liệu từ API:", data);
+        
       } catch (error) {
         console.error("Lỗi khi lấy dữ liệu từ API:", error);
       }
     };
 
-    // Gọi hàm fetchData khi useEffect được gọi
+   
     fetchData();
   }, []);
 
   const renderItem = ({ item }) => (
-    <View style={{ padding: 30, paddingLeft: 30, paddingRight: 15 }}>
+    <View style={{ padding: 30, paddingLeft: 30, paddingRight: 15, }}>
       <TouchableOpacity
         onPress={() => detedata(item)}
-        style={{ backgroundColor: "#F6F5F5" }}
+        style={{ backgroundColor: "#F6F5F5",borderWidth:0.1, }}
       >
         <Image
         style={{ flex: 1, backgroundColor: "#EEEEEE", borderRadius: 10,width:155, height:134 }}
@@ -342,7 +342,7 @@ const Home = () => {
             keyExtractor={(item) => item.key}
             numColumns={2}
           />
-          <TouchableOpacity onPress={() => Allcaytrong(data)}>
+          <TouchableOpacity onPress={Allcaytrong}>
             <Text
               style={{
                 alignSelf: "flex-end",

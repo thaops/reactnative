@@ -6,19 +6,35 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
+import {useDispatch,useSelector} from 'react-redux'
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
+import { KiemTraDangNhap } from "../../lab/redux/reducers/LoginSlice";
 
 const Login = () => {
-  const [textinput,settextinput] = useState("");
+  const [email,setemail] = useState("");
   const [textinputerr,settextinputerr] = useState("");
   const [pass,setpass] = useState("");
   const [passerr,setpasserr] = useState("");
+  const [passVisible, setPassVisible] = useState(true);
 
+  const dispatch = useDispatch();
+  const {loginData,loginStatus} = useSelector((state) => state.login);
+
+  useEffect(()=>{
+    if(loginStatus == "succeeded"){
+      if(loginData.code == 1){
+        navigation.navigate("StackNavigator");
+        console.log(loginData)
+      }else{
+        console.log('lôi đăng nhập')
+      }
+    }
+  },[loginStatus])
   const chettext = (data) => {
     console.log(data);
-    settextinput(data);
+    setemail(data);
     settextinputerr("");
   };
  
@@ -27,12 +43,15 @@ const Login = () => {
     setpass(data);
     setpasserr("");
   };
-
+  const handleTogglePasswordVisibility = () => {
+    setPassVisible(!passVisible);
+  };
+  
   const navigation = useNavigation();
   const handleCheckout = () => {
     let isValid = true;
   
-    if (textinput.trim() === "") {
+    if (email.trim() === "") {
       settextinputerr("Không được để trống!");
       isValid = false;
     } else {
@@ -50,7 +69,8 @@ const Login = () => {
     }
   
     if (isValid) {
-      navigation.navigate("StackNavigator");
+      dispatch(KiemTraDangNhap({email,pass}))
+      
     }
   };
 
@@ -102,21 +122,23 @@ const Login = () => {
       
       <View style={{ height: 20 }} />
       <View>
-      <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
-        <TextInput
-        onChangeText={(data) =>  checkpass(data)}
-          style={!!passerr? styles.inputerr:styles.input}
-          placeholder="Pass"
-          placeholderTextColor="#828282"
-          autoCapitalize="none"
-          autoCorrect={false}
-        />
-        <View style={{ position: "absolute", right: 50, alignSelf: "center" }}>
-          <AntDesign name="eye" size={24} color="black" />
-        </View>
-      </View>
-      {!! passerr &&<Text style={styles.texterr}>{passerr}</Text>}
-      </View>
+  <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
+    <TextInput
+      onChangeText={(data) => checkpass(data)}
+      style={!!passerr ? styles.inputerr : styles.input}
+      placeholder="Pass"
+      placeholderTextColor="#828282"
+      autoCapitalize="none"
+      autoCorrect={false}
+      secureTextEntry={!passVisible} 
+    />
+    <TouchableOpacity onPress={handleTogglePasswordVisibility} style={{ position: "absolute", right: 50, alignSelf: "center" }}>
+    <AntDesign name={!passVisible ? "eye" : "eyeo"} size={24} color="black" />
+    </TouchableOpacity>
+  </View>
+  {!!passerr && <Text style={styles.texterr}>{passerr}</Text>}
+</View>
+
      
 
       <View style={{ height: 10 }} />

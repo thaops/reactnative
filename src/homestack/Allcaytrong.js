@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,36 +8,39 @@ import {
   Image,
 } from "react-native";
 import { ScrollView } from "react-native-virtualized-view";
+import {useDispatch,useSelector} from "react-redux"
 import { useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
+import { LayDanhMuc } from "../../lab/redux/reducers/CategorySlice";
+import { LaySanPham } from "../../lab/redux/reducers/ListProductSlice";
+
 
 const Allcaytrong = ({ navigation }) => {
-  const route = useRoute();
-  const { data } = route.params;
-  const [selectedItemId, setSelectedItemId] = useState(null);
+ 
+  const [selectedItemId, setSelectedItemId] = useState("");
 
-  const datatile = [
-    { id: "1", title: "ALL" },
-    { id: "2", title: "Hàng mới về" },
-    { id: "3", title: "Ưa sáng" },
-    { id: "4", title: "Ưa Tối" },
-  ];
+  const dispatch = useDispatch();
+  const{CategoryData,CategoryStatus} = useSelector((state)=> state.category);
+  const{ListProductData,ListProductStatus} = useSelector((state)=> state.listProduct);
+  useEffect(()=>{
+    dispatch(LayDanhMuc());
+    dispatch(LaySanPham(selectedItemId));
+    
+  },[dispatch,selectedItemId])
 
   const btnback = () => {
     navigation.navigate("Home");
   };
 
   const detedata = (item) => {
-  navigation.navigate("Detail");
-  navigation.setParams({ item }); // Đặt item bằng navigation.setParams
+    navigation.navigate("Detail", { item });
 };
 
 
   const renderItem = ({ item }) => {
-    // Kiểm tra nếu không có mục nào được chọn hoặc mục được chọn là "ALL", hiển thị tất cả các mục
-    if (!selectedItemId || selectedItemId === "1") {
+  
       return (
         <View style={{ padding: 30, paddingLeft: 30, paddingRight: 15 }}>
           <TouchableOpacity
@@ -45,8 +48,8 @@ const Allcaytrong = ({ navigation }) => {
             style={{ backgroundColor: "#F6F5F5" }}
           >
             <Image
-              style={{ flex: 1, backgroundColor: "#EEEEEE", borderRadius: 10 }}
-             source={item.img}
+            style={{ flex: 1, backgroundColor: "#EEEEEE", borderRadius: 10,width:155, height:134 }}
+            source={{ uri: item.img }}
             />
             <Text style={{ fontSize: 16, fontWeight: "400", paddingTop: 5 }}>
               {item.title}
@@ -67,38 +70,7 @@ const Allcaytrong = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       );
-    } else {
-      // Nếu mục được chọn không phải là "ALL", chỉ hiển thị các mục có titlemini tương ứng
-      return item.titlemini === datatile[selectedItemId - 1].title ? (
-        <View style={{ padding: 30, paddingLeft: 30, paddingRight: 15 }}>
-        <TouchableOpacity
-          onPress={() => detedata(item)}
-          style={{ backgroundColor: "#F6F5F5" }}
-        >
-          <Image
-            style={{ flex: 1, backgroundColor: "#EEEEEE", borderRadius: 10 }}
-           source={item.img}
-          />
-          <Text style={{ fontSize: 16, fontWeight: "400", paddingTop: 5 }}>
-            {item.title}
-          </Text>
-          <Text style={{ fontSize: 14, fontWeight: "300", paddingTop: 5 }}>
-            {item.titlemini}
-          </Text>
-          <Text
-            style={{
-              fontSize: 16,
-              fontWeight: "400",
-              paddingTop: 5,
-              color: "green",
-            }}
-          >
-            {item.gia}
-          </Text>
-        </TouchableOpacity>
-      </View>
-      ) : null;
-    }
+ 
   };
   
   
@@ -106,14 +78,14 @@ const Allcaytrong = ({ navigation }) => {
   const renderItemtile = ({ item }) => {
     return (
       <TouchableOpacity
-        onPress={() => setSelectedItemId(item.id)}
+        onPress={() => setSelectedItemId(item._id)}
         style={[
           styles.renderItemTile,
           selectedItemId === item.id && styles.selectedRenderItemTile,
         ]}
       >
         <Text style={{ fontSize: 14, fontWeight: "400", borderRadius: 8 }}>
-          {item.title}
+          {item.name}
         </Text>
       </TouchableOpacity>
     );
@@ -143,17 +115,15 @@ const Allcaytrong = ({ navigation }) => {
         <View style={{ height: 20 }} />
         <FlatList
           horizontal
-          data={datatile}
+          data={CategoryData}
           renderItem={renderItemtile}
-          keyExtractor={(item) => item.id}
-          
-          
+          keyExtractor={(item) => item._id}
         />
         <View>
           <FlatList
-            data={data}
+            data={ListProductData}
             renderItem={renderItem}
-            keyExtractor={(item) => item.key}
+            keyExtractor={(item) => item._id}
             numColumns={2}
           />
         </View>
