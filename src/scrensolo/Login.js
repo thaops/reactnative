@@ -5,6 +5,7 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  ToastAndroid,
 } from "react-native";
 import React,{useState,useEffect} from "react";
 import {useDispatch,useSelector} from 'react-redux'
@@ -25,8 +26,8 @@ const Login = () => {
   useEffect(()=>{
     if(loginStatus == "succeeded"){
       if(loginData.code == 1){
+        ToastAndroid.show('Đăng Nhập thành công', ToastAndroid.SHORT);
         navigation.navigate("StackNavigator");
-        console.log(loginData)
       }else{
         console.log('lôi đăng nhập')
       }

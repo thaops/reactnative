@@ -5,6 +5,7 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  ToastAndroid
 } from "react-native";
 import React, { useState,useEffect } from "react";
 import {useDispatch,useSelector} from 'react-redux';
@@ -33,7 +34,9 @@ const Dangky = () => {
 console.log(registerStatus,registerData);
 if (registerStatus == "succeeded"){
   if(registerData.code == 1){
+    ToastAndroid.show('Đăng Ký thành công', ToastAndroid.SHORT);
   navigation.goBack();
+  
 }
 }else{
   console.log('lỗi đăng nhập ')

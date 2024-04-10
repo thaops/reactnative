@@ -1,8 +1,9 @@
-import { StyleSheet, Text, View,Image,FlatList } from 'react-native'
+import { StyleSheet, Text, View,Image,FlatList,SafeAreaView } from 'react-native'
 import React,{useEffect} from 'react'
 import moment from 'moment';
 import { Ionicons } from '@expo/vector-icons';
 import {useDispatch,useSelector} from "react-redux"
+import { ScrollView } from "react-native-virtualized-view";
 import { GetBill } from '../../lab/redux/reducers/GetBillSlice';
 
 
@@ -26,7 +27,9 @@ const renderItem = ({ item }) => (
         source={{uri:item.img}}
       />
       <View style={{ paddingLeft: 20, paddingTop:20 }}>
-      <Text style={{paddingBottom:10, fontSize:16,fontWeight:"500", color: item.trangthai === 'Đặt hàng Thất bại' ? 'red' : 'green'}}>Đặt hàng Thanh Cong</Text>
+      <Text style={{ paddingBottom: 10, fontSize: 16, fontWeight: "500", color: item.status === 1 ? 'green' : 'red' }}>
+          {item.status === 1 ? 'Đặt hàng Thành công' : 'Đặt hàng Thất bại'}
+        </Text>
         <View style={{ flexDirection: "row" }}>
           <Text style={{ fontSize:16,fontWeight:"500"}}>{item.title}</Text>
           <Text style={{ paddingLeft: 5, paddingRight: 5,fontWeight:"900" }}>| |</Text>
@@ -45,23 +48,26 @@ const Notification = () => {
     dispatch(GetBill(user));
     
   },[dispatch])
+  
   return (
-    <View>
+    <ScrollView>
+
       <View style={{height:50}}/>
       <View style={{flexDirection:'row',alignSelf:'center'}}>
       <Ionicons style={{ flex:1, paddingLeft:40}} name="chevron-back" size={24} color="black" />
       <Text style={{ paddingRight:130, fontSize:16, fontWeight:'500'}}>LỊCH SỬ GIAO DỊCH</Text>
       </View>
-      
-      <View style={{ height: 0 }} />
-      <View>
+
+    
       <FlatList
         data={userBillData}
         renderItem={renderItem}
         keyExtractor={(item) => item._id}
       />
-      </View>
-    </View>
+   
+ 
+    </ScrollView>
+
   )
 }
 

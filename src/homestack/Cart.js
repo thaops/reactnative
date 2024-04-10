@@ -153,13 +153,13 @@ const Cart = ({ route, navigation }) => {
       >
         {/* Thêm biểu tượng hoặc văn bản cho nút tích vào đây */}
       </TouchableOpacity>
-      <View>
+      <View style={{paddingLeft:20}}>
         <Image
-          style={{ backgroundColor: "#EEEEEE", width: 77, height: 77 }}
+          style={{ backgroundColor: "#EEEEEE", width: 77, height: 77 ,}}
           source={{ uri: item.img }}
         />
       </View>
-      <View style={{ marginRight: 10 }}>
+      <View style={{marginRight: 10 , paddingLeft:20,width:'60%'}}>
         <View
           style={{
             flexDirection: "row",

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View ,ToastAndroid} from "react-native";
 import React, { useState, useEffect } from "react";
 import {useDispatch,useSelector} from "react-redux"
 import { Ionicons } from "@expo/vector-icons";
@@ -8,10 +8,8 @@ import { ThanhToan } from "../../lab/redux/reducers/BuySlice";
 
 const BuyProduct = ({ route, navigation }) => {
   const { totalQuantity,ids,selectedProduct } = route.params;
-  const [textinput, settextinput] = useState("");
+  const [diaChi, setdiaChi] = useState("");
   const [textinputerr, settextinputerr] = useState("");
-  const [pass, setpass] = useState("");
-  const [passerr, setpasserr] = useState("");
   const [selectedShipping, setSelectedShipping] = useState(null); 
   const [tongcong, setTongcong] = useState(0);
   const dispatch = useDispatch();
@@ -27,8 +25,10 @@ const BuyProduct = ({ route, navigation }) => {
   const img = selectedProduct.img;
   const title =  selectedProduct.title;
   const titlemini =  selectedProduct.titlemini;
+  const gia =  selectedProduct.gia;
+  const quantity =  selectedProduct.quantity;
   
-  console.log('valuid',img)
+  console.log('valuid',diaChi)
 
   useEffect(() => {
     // Tính tổng cộng dựa trên phương thức vận chuyển và số lượng sản phẩm
@@ -39,11 +39,10 @@ const BuyProduct = ({ route, navigation }) => {
 
   useEffect(()=>{
     console.log(buyStatus,buyData);
-    if (buyStatus == "succeeded"){
-      if(buyData.code == 1){
-        
-      
-    }
+    if (buyStatus == "failed"){
+      const status = 0
+      dispatch(ThanhToan({user,products,total,img,title,titlemini,status}))
+      ToastAndroid.show('Thanh Toán Thất Bại', ToastAndroid.SHORT);
     }else{
       console.log('lỗi thanh toán')
     }
@@ -51,15 +50,11 @@ const BuyProduct = ({ route, navigation }) => {
     
   const chettext = (data) => {
     console.log(data);
-    settextinput(data);
+    setdiaChi(data);
     settextinputerr("");
   };
 
-  const checkpass = (data) => {
-    console.log(data);
-    setpass(data);
-    setpasserr("");
-  };
+
 
   const handleShippingSelect = (shippingMethod) => {
     setSelectedShipping(shippingMethod);
@@ -68,28 +63,22 @@ const BuyProduct = ({ route, navigation }) => {
   const handleCheckout = () => {
     let isValid = true;
 
-    if (textinput.trim() === "") {
+    if (diaChi.trim() === "") {
       settextinputerr("Địa Chỉ Không được để trống!");
       isValid = false;
     } else {
       settextinputerr("");
     }
 
-    if (pass.trim() === "") {
-      setpasserr("Không được để trống Số điện thoại!");
-      isValid = false;
-    } else {
-      setpasserr("");
-    }
-
     if (!selectedShipping) {
-      // Kiểm tra xem có phương thức vận chuyển nào được chọn không
+  
       isValid = false;
     }
 
     if (isValid) {
-      // navigation.navigate("StackNavigator");
-      dispatch(ThanhToan({user,products,total,img,title,titlemini}))
+      const status = 1
+      dispatch(ThanhToan({user,products,total,img,title,titlemini,status,name,email,phone,gia,quantity,diaChi}))
+      ToastAndroid.show('Thanh Toán Thành công', ToastAndroid.SHORT);
       navigation.goBack();
     }
   };
@@ -163,7 +152,7 @@ const BuyProduct = ({ route, navigation }) => {
         </View>
         {!!textinputerr && <Text style={styles.texterr}>{textinputerr}</Text>}
         <View style={styles.view}>
-          <TextInput onChangeText={(data) => checkpass(data)}  placeholderTextColor="#828282" keyboardType="numeric" style={styles.textPhu}>{phone}</TextInput>
+          <Text   placeholderTextColor="#828282" keyboardType="numeric" style={styles.textPhu}>{phone}</Text>
           <View
             style={{
               width: "100%",
@@ -173,7 +162,6 @@ const BuyProduct = ({ route, navigation }) => {
             }}
           />
         </View>
-        {!!passerr && <Text style={styles.texterr}>{passerr}</Text>}
         <View style={styles.view}>
           <Text style={styles.textMain}>Phương thức vận chuyển</Text>
           <View

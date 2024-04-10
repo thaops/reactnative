@@ -11,13 +11,13 @@ const Detail = ({ route }) => {
   const navigation = useNavigation();
   const { item } = route.params;
   const [quantity, setquantity] = useState(1);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const dispatch = useDispatch();
   const AddCartData = useSelector(state => state.addCart);
   const loginData = useSelector(state => state.login);
 
-  console.log(quantity)
-  
+  const images = [item.img2, item.img3, item.img4]; // Mảng các URL ảnh
 
   const tang = () => {
     setquantity(quantity + 1);
@@ -31,19 +31,18 @@ const Detail = ({ route }) => {
 
   const tinhTamTinh = () => {
     const gia = item && item.gia ? parseFloat(item.gia) : 0;
-    return (gia * quantity).toLocaleString('vi-VN') + 'đ';
+    return (gia * quantity).toLocaleString('vi-VN') + '.000đ';
   };
 
   const btn = () => {
     const productId = item._id;
     const userId = loginData.loginData.data._id;
     const img = item.img;
-    const title =item.title;
-    const titlemini =item.titlemini;
-    const gia =item.gia;
-    dispatch(ThemGioHang({ productId, userId, quantity,img,title,titlemini,gia }));
-      ToastAndroid.show('Thêm vào giỏ hàng thành công', ToastAndroid.SHORT);
-    
+    const title = item.title;
+    const titlemini = item.titlemini;
+    const gia = item.gia;
+    dispatch(ThemGioHang({ productId, userId, quantity, img, title, titlemini, gia }));
+    ToastAndroid.show('Thêm vào giỏ hàng thành công', ToastAndroid.SHORT);
   };
 
   const btnback = () => {
@@ -51,9 +50,7 @@ const Detail = ({ route }) => {
   };
 
   const btnCart = () => {
-
-      navigation.navigate('Cart'); 
-    
+    navigation.navigate('Cart');
   };
 
   const btnallcaytrong = () => {
@@ -73,7 +70,23 @@ const Detail = ({ route }) => {
       </View>
       {/* ảnh */}
       <View>
-        <Image style={{ width: '100%', height: 270 }} resizeMode="cover" source={{ uri: item.img2 }} />
+        <Image style={{ width: '100%', height: 270 }} resizeMode="cover" source={{ uri: images[currentImageIndex] }} />
+        {/* Nút chuyển ảnh */}
+        <View style={{ flexDirection: 'row', justifyContent: 'center', paddingTop: 10 }}>
+          {images.map((_, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => setCurrentImageIndex(index)}
+              style={{
+                width: 10,
+                height: 10,
+                borderRadius: 5,
+                backgroundColor: currentImageIndex === index ? 'black' : '#ccc',
+                marginHorizontal: 5,
+              }}
+            />
+          ))}
+        </View>
       </View>
 
       {/* trang2 */}
@@ -91,7 +104,7 @@ const Detail = ({ route }) => {
         {/* gia */}
         <View style={{ padding: 50, paddingBottom: 0, paddingTop: 10 }}>
           {item && item.gia && (
-            <Text style={{ fontSize: 24, fontWeight: "500", color: "green" }}>{item.gia}</Text>
+            <Text style={{ fontSize: 24, fontWeight: "500", color: "green" }}>{item.gia}.000đ</Text>
           )}
         </View>
 

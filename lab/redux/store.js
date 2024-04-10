@@ -12,6 +12,7 @@ import deleteCartReducer from'./reducers/DeleteCartSlice';
 import deleteManyCartReducer from'./reducers/DeleteManyCartSlice';
 import buyReducer from'./reducers/BuySlice';
 import userBillReducer from'./reducers/GetBillSlice';
+import getUserReducer from'./reducers/GetUserSlice';
 
 
 export const store = configureStore({
@@ -27,6 +28,7 @@ export const store = configureStore({
     deleteCart:deleteCartReducer,
     deleteManyCart:deleteManyCartReducer,
     buy:buyReducer,
-    userBill:userBillReducer
+    userBill:userBillReducer,
+    getUser:getUserReducer
   },
 });

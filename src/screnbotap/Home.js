@@ -192,7 +192,7 @@ const Home = () => {
             color: "green",
           }}
         >
-          {item.gia}
+          {item.gia}.000đ
         </Text>
       </TouchableOpacity>
     </View>
@@ -280,7 +280,7 @@ const Home = () => {
               Planta - toả sáng {"\n"}không gian nhà bạn
             </Text>
             <TouchableOpacity
-              // onPress={btnCart}
+              onPress={btnCart}
               style={{
                 width: 50,
                 height: 50,
@@ -417,8 +417,7 @@ const Home = () => {
             </Text>
 
           </TouchableOpacity>
-          <Image source={{uri: 'https://firebasestorage.googleapis.com/v0/b/realtimedatabase-231d9.appspot.com/o/imgitem2.png?alt=media&token=93db1b0a-038b-4b50-bd74-5d628f813c33'}} style={{width:155, height:134}} />
-<View style={{width:500,height:500}}/>
+
         </View>
         
       </View>

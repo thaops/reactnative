@@ -15,9 +15,9 @@ const UpdateProfile = ({ navigation }) => {
   const loginData = useSelector(state => state.login);
   useEffect(() => {
     if (loginData.loginData) {
-      setName(loginData.loginData.data.name);
-      setEmail(loginData.loginData.data.email);
-      setPhone(loginData.loginData.data.phone);
+      setName(loginData.loginData.data.name || '');
+      setEmail(loginData.loginData.data.email || '');
+      setPhone(loginData.loginData.data.phone || '');
     }
   }, [loginData]);
 
