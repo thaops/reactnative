@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { TimSanPham } from "../../lab/redux/reducers/SearchSlice";
+import { TimSanPham } from "../../reduct-toolkit/redux/reducers/SearchSlice";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";

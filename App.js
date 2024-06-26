@@ -2,7 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import TabNavigator from './StackNavigator';
 import { Provider } from 'react-redux';
-import { store } from './lab/redux/store';
+import { store } from './reduct-toolkit/redux/store';
+
+
+
 
 
 
@@ -14,7 +17,8 @@ export default function App() {
   return (
     <>
     <Provider store={store}>
-    <TabNavigator/>
+    <TabNavigator/> 
+    
     </Provider>
 
     </>

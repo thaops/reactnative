@@ -11,7 +11,7 @@ import React,{useState,useEffect} from "react";
 import {useDispatch,useSelector} from 'react-redux'
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
-import { KiemTraDangNhap } from "../../lab/redux/reducers/LoginSlice";
+import { KiemTraDangNhap } from "../../reduct-toolkit/redux/reducers/LoginSlice";
 
 const Login = () => {
   const [email,setemail] = useState("");
@@ -71,6 +71,7 @@ const Login = () => {
   
     if (isValid) {
       dispatch(KiemTraDangNhap({email,pass}))
+      console.log(loginStatus)
       
     }
   };

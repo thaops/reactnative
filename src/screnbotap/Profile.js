@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity,Alert } from "react-nat
 import React, { useEffect, useState } from "react";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { useDispatch, useSelector } from "react-redux";
-import { LayThongTinNguoiDUng } from "../../lab/redux/reducers/GetUserSlice";
+import { LayThongTinNguoiDUng } from "../../reduct-toolkit/redux/reducers/GetUserSlice";
 
 const Profile = ({ navigation }) => {
   const dispatch = useDispatch();

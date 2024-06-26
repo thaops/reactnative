@@ -4,7 +4,7 @@ import moment from 'moment';
 import { Ionicons } from '@expo/vector-icons';
 import {useDispatch,useSelector} from "react-redux"
 import { ScrollView } from "react-native-virtualized-view";
-import { GetBill } from '../../lab/redux/reducers/GetBillSlice';
+import { GetBill } from '../../reduct-toolkit/redux/reducers/GetBillSlice';
 
 
 const renderItem = ({ item }) => (

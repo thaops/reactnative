@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput,ToastAndroid
 import { useDispatch, useSelector } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
-import { CapNhatNguoiDung } from "../../lab/redux/reducers/UpDataSlice";
+import { CapNhatNguoiDung } from "../../reduct-toolkit/redux/reducers/UpDataSlice";
 
 const UpdateProfile = ({ navigation }) => {
   const [name, setName] = useState('');

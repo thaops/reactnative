@@ -4,7 +4,7 @@ import {useDispatch,useSelector} from "react-redux"
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
-import { ThanhToan } from "../../lab/redux/reducers/BuySlice";
+import { ThanhToan } from "../../reduct-toolkit/redux/reducers/BuySlice";
 
 const BuyProduct = ({ route, navigation }) => {
   const { totalQuantity,ids,selectedProduct } = route.params;

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Octicons } from '@expo/vector-icons';
-import { ThemGioHang } from "../../lab/redux/reducers/AddCartSlice";
+import { ThemGioHang } from "../../reduct-toolkit/redux/reducers/AddCartSlice";
 
 const Detail = ({ route }) => {
   const navigation = useNavigation();

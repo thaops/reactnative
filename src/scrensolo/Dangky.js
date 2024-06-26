@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React, { useState,useEffect } from "react";
 import {useDispatch,useSelector} from 'react-redux';
-import { DangKyTaiKhoan } from "../../lab/redux/reducers/RegisterSlice";
+import { DangKyTaiKhoan } from "../../reduct-toolkit/redux/reducers/RegisterSlice";
 
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";

@@ -13,8 +13,8 @@ import { useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
-import { LayDanhMuc } from "../../lab/redux/reducers/CategorySlice";
-import { LaySanPham } from "../../lab/redux/reducers/ListProductSlice";
+import { LayDanhMuc } from "../../reduct-toolkit/redux/reducers/CategorySlice";
+import { LaySanPham } from "../../reduct-toolkit/redux/reducers/ListProductSlice";
 
 
 const Allcaytrong = ({ navigation }) => {

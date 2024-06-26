@@ -12,9 +12,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
-import { GioHang } from "../../lab/redux/reducers/CartSlice";
-import { XoaGioHang } from "../../lab/redux/reducers/DeleteCartSlice";
-import { XoaTheoMuc } from "../../lab/redux/reducers/DeleteManyCartSlice";
+import { GioHang } from "../../reduct-toolkit/redux/reducers/CartSlice";
+import { XoaGioHang } from "../../reduct-toolkit/redux/reducers/DeleteCartSlice";
+import { XoaTheoMuc } from "../../reduct-toolkit/redux/reducers/DeleteManyCartSlice";
 
 const Cart = ({ route, navigation }) => {
   const [checkedItems, setCheckedItems] = useState({});
